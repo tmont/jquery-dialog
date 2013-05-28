@@ -1,9 +1,12 @@
 (function(window, $) {
 
+	var dialogId = 0;
+
 	function Dialog(options) {
 		this.options = options;
 		this.$mask = null;
 		this.$dialog = null;
+		this.id = ++dialogId;
 	}
 
 	Dialog.prototype = {
@@ -31,6 +34,17 @@
 			}
 
 			var $header, $body, $footer, self = this;
+
+			if (this.options.closeOnEscape) {
+				$(document).on('keyup.dialog-' + this.id, function(e) {
+					if (e.keyCode === 27) {
+						e.preventDefault();
+						e.stopImmediatePropagation();
+						self.hide('escape');
+						$(document).off('keyup.dialog-' + self.id);
+					}
+				});
+			}
 
 			this.$dialog = $('<div/>')
 				.addClass('dialog-container')
@@ -160,6 +174,7 @@
 		width: null,
 		height: null,
 		closeOnMaskClick: true,
+		closeOnEscape: true,
 		onHide: function(catalyst) {},
 		onShowing: function() {},
 		onShown: function() {},
