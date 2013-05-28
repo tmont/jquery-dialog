@@ -39,24 +39,15 @@
 			if (this.options.dynamic) {
 				this.$dialog.addClass('dynamic');
 				if (this.options.width) {
-					this.$dialog.css(
-						'marginLeft',
-						(-parseFloat(this.options.width) / 2) +
-							(/[a-z]+$/i.exec(String(this.options.width)) || [''])[0]
-					);
+					var marginLeft = (-parseFloat(this.options.width) / 2) +
+						(/[a-z]+$/i.exec(String(this.options.width)) || ['px'])[0];
+					this.$dialog.css('margin-left', marginLeft);
 				}
 				if (this.options.height) {
-					this.$dialog.css(
-						'marginTop',
-						(-parseFloat(this.options.height) / 2) +
-							(/[a-z]+$/i.exec(String(this.options.height)) || [''])[0]
-					);
+					var marginTop = (-parseFloat(this.options.height) / 2) +
+						(/[a-z]+$/i.exec(String(this.options.height)) || ['px'])[0];
+					this.$dialog.css('margin-top', marginTop);
 				}
-			} else {
-				this.$dialog.css({
-					left: Math.max(0, $(window).width() / 2 - 200),
-					top: Math.max(0, Math.min(100, $(window).height() - 20))
-				});
 			}
 
 			$header = $('<div/>')
@@ -133,6 +124,15 @@
 				.append($body)
 				.append($footer)
 				.appendTo('body');
+
+			if (!this.options.dynamic) {
+				var width = this.$dialog.outerWidth(),
+					height = this.$dialog.outerHeight();
+				this.$dialog.css({
+					left: Math.max(0, $(window).width() / 2 - width / 2),
+					top: Math.max(0, $(window).height() / 2 - height / 2)
+				});
+			}
 
 			this.options.onShown && this.options.onShown();
 		},
