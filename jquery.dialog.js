@@ -22,6 +22,12 @@
 				//force repaint for firefox: http://stackoverflow.com/a/12089264
 				this.$mask
 					.addClass('dialog-mask-active ' + 'a' + this.$mask[0].clientHeight);
+
+				if (this.options.closeOnMaskClick) {
+					this.$mask.click(function() {
+						self.hide('mask');
+					});
+				}
 			}
 
 			var $header, $body, $footer, self = this;
@@ -153,6 +159,7 @@
 		modal: false,
 		width: null,
 		height: null,
+		closeOnMaskClick: true,
 		onHide: function(catalyst) {},
 		onShowing: function() {},
 		onShown: function() {},
