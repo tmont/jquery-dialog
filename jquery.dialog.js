@@ -129,24 +129,19 @@
 					var button = $.extend({}, data),
 						$button = $('<div/>').addClass('dialog-button ' + (button.className || ''));
 
-					switch (type.toLowerCase()) {
+					type = type.toLowerCase();
+					switch (type) {
 						case 'close':
-							button.text = button.text || 'Close';
-							if (!button.className) {
-								$button.addClass('dialog-button-primary');
-							}
-							$button.click(function() {
-								self.hide('closeButton');
-							});
-							break;
 						case 'ok':
-							button.text = button.text || 'OK';
+							button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
 							if (!button.className) {
 								$button.addClass('dialog-button-primary');
 							}
-							$button.click(function() {
-								self.hide('okButton');
-							});
+							$button.click((function(type) {
+								return function() {
+									self.hide(type === 'ok' ? 'okButton' : 'closeButton');
+								};
+							}(type)));
 							break;
 						case 'cancel':
 							button.text = button.text || 'Cancel';
