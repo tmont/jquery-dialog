@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Best dialog ever demo</title>
+		<link rel="stylesheet" type="text/css" href="./dialog.css"/>
+		<link rel="stylesheet" type="text/css" href="http://dl.sunlightjs.com/latest/themes/sunlight.default.css"/>
+		<style type="text/css">
+			body {
+				font-family: sans-serif;
+				font-size: 16px;
+			}
+			#examples {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#examples h2 {
+				font-size: 20px;
+				font-weight: bold;
+			}
+			#examples h2 button {
+				margin-left: 10px;
+			}
+			#examples .sunlight-container  {
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="http://dl.sunlightjs.com/latest/sunlight-min.js"></script>
+		<script type="text/javascript" src="http://dl.sunlightjs.com/latest/lang/sunlight.javascript-min.js"></script>
+		<script type="text/javascript" src="./jquery.dialog.js"></script>
+		<script type="text/javascript">
+			(function() {
+				var defaults = {
+					body: 'oh hai mark!',
+					show: true,
+					onShowing: function() {
+						$('.dialog-container').dialog('hide');
+					}
+				};
+
+				var examples = {
+					boring: {
+						name: 'Default dialog'
+					},
+					dimensions: {
+						name: 'With custom dimensions',
+						options: { width: 300, height: 200 }
+					},
+					'static': {
+						name: 'Won\'t move around when you resize the window',
+						options: { dynamic: false }
+					}
+				};
+
+				var $ul = $('<ul/>').attr('id', 'examples').appendTo('body');
+				for (var id in examples) {
+					var data = examples[id],
+						options = $.extend({}, defaults, data.options || {}),
+						code = '$("#' + id + '").click(function() {\n' +
+							'  $.dialog(' + JSON.stringify(options, null, 2).replace(/\n/g, '\n  ') + ');\n' +
+							'});';
+
+					$('<li/>')
+						.append($('<h2/>').text(data.name).append($('<button/>')
+							.attr('id', id)
+							.text('Launch dialog')))
+						.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
+						.appendTo($ul);
+
+					$('#' + id).click((function(options) {
+						return function() {
+							$.dialog(options);
+						};
+					}(options)));
+				}
+
+				window.Sunlight.highlightAll();
+			}());
+		</script>
+	</body>
+</html>
