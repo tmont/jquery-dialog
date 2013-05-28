@@ -16,9 +16,12 @@
 
 			if (this.options.modal) {
 				this.$mask = $('<div/>')
-					.addClass('dialog-mask')
-					.appendTo('body')
-					.fadeIn('fast');
+					.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
+					.appendTo('body');
+
+				//force repaint for firefox: http://stackoverflow.com/a/12089264
+				this.$mask
+					.addClass('dialog-mask-active ' + 'a' + this.$mask[0].clientHeight);
 			}
 
 			var $header, $body, $footer, self = this;
@@ -147,9 +150,13 @@
 
 	var defaults = {
 		dynamic: true,
+		modal: false,
+		width: null,
+		height: null,
 		onHide: function(catalyst) {},
 		onShowing: function() {},
 		onShown: function() {},
+		transitionMask: true,
 		buttons: {
 			close: 'Close'
 		}
