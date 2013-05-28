@@ -177,6 +177,7 @@
 		return this.each(function() {
 			var dialog = $(this).data('dialog');
 			dialog && typeof(dialog[method]) === 'function' && dialog[method]();
+			return this;
 		});
 	}
 
