@@ -72,21 +72,34 @@
 		border-top-right-radius: @radius;
 		position: relative;
 		color: @headerColor;
+		min-height: 19px;
+		.dialog-title {
+			font-weight: bold;
+		}
 		.dialog-close {
+			@length: 20px;
 			position: absolute;
-			top: 0;
+			top: 4px;
 			right: 4px;
 			cursor: pointer;
-			.transition(all 200ms);
+			width: @length;
+			height: @length;
+			line-height: @length;
+			text-align: center;
+			border-radius: @radius;
 
 			&:hover {
-				text-shadow: 0 0 2px fade(@headerColor, 80), 0 0 2px fade(@headerColor, 80);
+				.gradient-vertical-2(@headerColor, darken(@headerColor, 20%));
+				color: @headerBgColor;
+			}
+			&:focus, &:active {
+				.gradient-vertical-2(darken(@headerColor, 20%), @headerColor);
 			}
 		}
 	}
 
-	.dialog-body, .dialog-header, .dialog-footer {
-		padding: @padding;
+	.dialog-header, .dialog-footer {
+		padding: @padding / 2;
 	}
 
 	.dialog-body {

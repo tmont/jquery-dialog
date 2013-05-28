@@ -35,6 +35,7 @@
 			(function() {
 				var defaults = {
 					body: 'oh hai mark!',
+					title: 'Just a little dialog',
 					show: true,
 					onShowing: function() {
 						$('.dialog-container').dialog('hide');
@@ -44,6 +45,10 @@
 				var examples = {
 					boring: {
 						name: 'Default dialog'
+					},
+					'no-title': {
+						name: 'No title',
+						options: { title: '' }
 					},
 					dimensions: {
 						name: 'With custom dimensions',
