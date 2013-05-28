@@ -79,7 +79,7 @@
 					.text(this.options.title)
 					.appendTo($header);
 			}
-			if (this.options.closable !== false) {
+			if (this.options.closeX) {
 				$('<div/>')
 					.addClass('dialog-close')
 					.html('&times;')
@@ -175,6 +175,7 @@
 		height: null,
 		closeOnMaskClick: true,
 		closeOnEscape: true,
+		closeX: true,
 		onHide: function(catalyst) {},
 		onShowing: function() {},
 		onShown: function() {},
