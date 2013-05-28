@@ -100,39 +100,48 @@
   text-align: center;
   padding: 5px 10px;
   border-radius: 4px;
-  box-shadow: inset 0 -15px 10px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   -moz-transition: all 200ms;
   -webkit-transition: all 200ms;
   transition: all 200ms;
+  border: 1px solid transparent;
 }
-.dialog-container .dialog-button.btn-primary {
+.dialog-container .dialog-button.dialog-button + .dialog-button {
+  margin-right: 5px;
+}
+.dialog-container .dialog-button.dialog-button-primary {
+  box-shadow: inset 0 -15px 10px rgba(0, 0, 0, 0.25);
+  border-color: #595e89;
   background-color: #4f537a;
   background-image: -moz-linear-gradient(top, #595e89 0%, #45496a 100%);
   background-image: -webkit-linear-gradient(top, #595e89 0%, #45496a 100%);
   background-image: linear-gradient(to bottom, #595e89 0%, #45496a 100%);
   color: #ffffff;
 }
-.dialog-container .dialog-button.btn-primary:active,
-.dialog-container .dialog-button.btn-primary:focus {
+.dialog-container .dialog-button.dialog-button-primary:hover {
+  box-shadow: none;
+}
+.dialog-container .dialog-button.dialog-button-primary:active,
+.dialog-container .dialog-button.dialog-button-primary:focus {
   background-color: #4f537a;
   background-image: -moz-linear-gradient(top, #45496a 0%, #595e89 100%);
   background-image: -webkit-linear-gradient(top, #45496a 0%, #595e89 100%);
   background-image: linear-gradient(to bottom, #45496a 0%, #595e89 100%);
 }
-.dialog-container .dialog-button.btn-info {
-  background-color: #bebebe;
-  background-image: -moz-linear-gradient(top, #cbcbcb 0%, #b2b2b2 100%);
-  background-image: -webkit-linear-gradient(top, #cbcbcb 0%, #b2b2b2 100%);
-  background-image: linear-gradient(to bottom, #cbcbcb 0%, #b2b2b2 100%);
+.dialog-container .dialog-button.dialog-button-info {
+  border-color: #cbcbcb;
+  background-color: #cbcbcb;
+  background-image: -moz-linear-gradient(top, #e4e4e4 0%, #b2b2b2 100%);
+  background-image: -webkit-linear-gradient(top, #e4e4e4 0%, #b2b2b2 100%);
+  background-image: linear-gradient(to bottom, #e4e4e4 0%, #b2b2b2 100%);
 }
-.dialog-container .dialog-button.btn-info:active,
-.dialog-container .dialog-button.btn-info:focus {
+.dialog-container .dialog-button.dialog-button-info:hover {
+  box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.15);
+}
+.dialog-container .dialog-button.dialog-button-info:active,
+.dialog-container .dialog-button.dialog-button-info:focus {
   background-color: #bebebe;
   background-image: -moz-linear-gradient(top, #b2b2b2 0%, #cbcbcb 100%);
   background-image: -webkit-linear-gradient(top, #b2b2b2 0%, #cbcbcb 100%);
   background-image: linear-gradient(to bottom, #b2b2b2 0%, #cbcbcb 100%);
-}
-.dialog-container .dialog-button:hover {
-  box-shadow: none;
 }

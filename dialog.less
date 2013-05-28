@@ -124,26 +124,36 @@
 		text-align: center;
 		padding: @padding / 2 @padding;
 		border-radius: @radius;
-		box-shadow: inset 0 -15px 10px fade(black, 25);
 		cursor: pointer;
 		.transition(all 200ms);
+		border: 1px solid transparent;
 
-		&.btn-primary {
+		&.dialog-button + .dialog-button {
+			margin-right: 5px;
+		}
+
+		&.dialog-button-primary {
+			box-shadow: inset 0 -15px 10px fade(black, 25);
+			border-color: @primaryButtonBgColor;
 			.gradient-vertical-2(@primaryButtonBgColor, darken(@primaryButtonBgColor, 10%));
 			color: @headerColor;
+			&:hover {
+				box-shadow: none;
+			}
 			&:active, &:focus {
 				.gradient-vertical-2(darken(@primaryButtonBgColor, 10%), @primaryButtonBgColor);
 			}
 		}
-		&.btn-info {
-			.gradient-vertical-2(@buttonBgColor, darken(@buttonBgColor, 10%));
+
+		&.dialog-button-info {
+			border-color: @buttonBgColor;
+			.gradient-vertical-2(lighten(@buttonBgColor, 10%), darken(@buttonBgColor, 10%));
+			&:hover {
+				box-shadow: inset 0 -5px 10px fade(black, 15);
+			}
 			&:active, &:focus {
 				.gradient-vertical-2(darken(@buttonBgColor, 10%), @buttonBgColor);
 			}
-		}
-
-		&:hover {
-			box-shadow: none;
 		}
 	}
 }

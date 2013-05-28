@@ -108,24 +108,44 @@
 						continue;
 					}
 
-					var button = $.extend({}, this.options.buttons[type]),
+					var data = this.options.buttons[type];
+					if (!data) {
+						continue;
+					}
+					if (typeof(data) === 'string') {
+						data = { text: data };
+					}
+
+					var button = $.extend({}, data),
 						$button = $('<div/>').addClass('dialog-button ' + (button.className || ''));
 
 					switch (type.toLowerCase()) {
 						case 'close':
 							button.text = button.text || 'Close';
-							$button.addClass('btn-primary');
+							if (!button.className) {
+								$button.addClass('dialog-button-primary');
+							}
 							$button.click(function() {
 								self.hide('closeButton');
 							});
 							break;
 						case 'ok':
 							button.text = button.text || 'OK';
-							$button.addClass('btn-primary');
+							if (!button.className) {
+								$button.addClass('dialog-button-primary');
+							}
+							$button.click(function() {
+								self.hide('okButton');
+							});
 							break;
 						case 'cancel':
 							button.text = button.text || 'Cancel';
-							$button.addClass('btn-info');
+							if (!button.className) {
+								$button.addClass('dialog-button-info');
+							}
+							$button.click(function() {
+								self.hide('cancelButton');
+							});
 							break;
 					}
 
@@ -180,9 +200,7 @@
 		onShowing: function() {},
 		onShown: function() {},
 		transitionMask: true,
-		buttons: {
-			close: 'Close'
-		}
+		buttons: {}
 	};
 
 	$.dialog = function(options) {
