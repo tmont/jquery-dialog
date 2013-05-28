@@ -68,7 +68,12 @@
 			if (this.options.closable !== false) {
 				$('<div/>')
 					.addClass('dialog-close')
-					.html('&times;');
+					.html('&times;')
+					.attr('title', 'Close')
+					.click(function() {
+						self.hide('x');
+					})
+					.appendTo($header);
 			}
 
 			$body = $('<div/>').addClass('dialog-body');
@@ -81,8 +86,7 @@
 				}
 			}
 
-			$footer = $('<div/>')
-				.addClass('dialog-footer');
+			$footer = $('<div/>').addClass('dialog-footer');
 
 			if (this.options.buttons) {
 				for (var type in this.options.buttons) {
@@ -96,15 +100,18 @@
 					switch (type.toLowerCase()) {
 						case 'close':
 							button.text = button.text || 'Close';
+							$button.addClass('btn-primary');
 							$button.click(function() {
 								self.hide('closeButton');
 							});
 							break;
 						case 'ok':
 							button.text = button.text || 'OK';
+							$button.addClass('btn-primary');
 							break;
 						case 'cancel':
 							button.text = button.text || 'Cancel';
+							$button.addClass('btn-info');
 							break;
 					}
 
@@ -138,16 +145,15 @@
 		}
 	};
 
-	var oldDialog = $.dialog,
-		defaults = {
-			dynamic: true,
-			onHide: function(catalyst) {},
-			onShowing: function() {},
-			onShown: function() {},
-			buttons: {
-				close: 'Close'
-			}
-		};
+	var defaults = {
+		dynamic: true,
+		onHide: function(catalyst) {},
+		onShowing: function() {},
+		onShown: function() {},
+		buttons: {
+			close: 'Close'
+		}
+	};
 
 	$.dialog = function(options) {
 		options = $.extend({}, defaults, options || {});
