@@ -15,8 +15,17 @@
 				return;
 			}
 
-			this.options.onShowing && this.options.onShowing();
+			var self = this;
+			this.options.onShowing.call(this, function(nope) {
+				if (nope) {
+					return;
+				}
 
+				self.render();
+			});
+		},
+
+		render: function() {
 			if (this.options.modal) {
 				this.$mask = $('<div/>')
 					.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
@@ -24,7 +33,8 @@
 
 				//force repaint for firefox: http://stackoverflow.com/a/12089264
 				this.$mask
-					.addClass('dialog-mask-active ' + 'a' + this.$mask[0].clientHeight);
+					.data('forceRepaint', this.$mask[0].clientHeight)
+					.addClass('dialog-mask-active');
 
 				if (this.options.closeOnMaskClick) {
 					this.$mask.click(function() {
@@ -174,7 +184,7 @@
 				});
 			}
 
-			this.options.onShown && this.options.onShown();
+			this.options.onShown.call(this);
 		},
 
 		hide: function(catalyst) {
@@ -182,9 +192,16 @@
 				return;
 			}
 
-			this.$mask && this.$mask.remove();
-			this.$dialog.remove();
-			this.options.onHide && this.options.onHide(catalyst);
+			var self = this;
+			this.options.onHiding.call(this, catalyst, function(nope) {
+				if (nope) {
+					return;
+				}
+
+				self.$mask && self.$mask.remove();
+				self.$dialog.remove();
+				self.options.onHidden.call(this, catalyst);
+			});
 		}
 	};
 
@@ -196,8 +213,9 @@
 		closeOnMaskClick: true,
 		closeOnEscape: true,
 		closeX: true,
-		onHide: function(catalyst) {},
-		onShowing: function() {},
+		onHiding: function(catalyst, callback) { callback(); },
+		onHidden: function(catalyst) {},
+		onShowing: function(callback) { callback(); },
 		onShown: function() {},
 		transitionMask: true,
 		buttons: {}

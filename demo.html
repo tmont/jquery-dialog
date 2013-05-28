@@ -37,8 +37,9 @@
 					body: 'oh hai mark!',
 					title: 'Just a little dialog',
 					show: true,
-					onShowing: function() {
+					onShowing: function(callback) {
 						$('.dialog-container').dialog('hide');
+						callback();
 					}
 				};
 
