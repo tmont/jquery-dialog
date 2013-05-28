@@ -1,4 +1,4 @@
-(function(window, $) {
+(function(window, document, $) {
 
 	var dialogId = 0;
 
@@ -6,6 +6,7 @@
 		this.options = options;
 		this.$mask = null;
 		this.$dialog = null;
+		this.$scrollContainer = null;
 		this.id = ++dialogId;
 	}
 
@@ -26,6 +27,7 @@
 		},
 
 		render: function() {
+			var $header, $body, $footer, self = this;
 			if (this.options.modal) {
 				this.$mask = $('<div/>')
 					.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
@@ -41,9 +43,12 @@
 						self.hide('mask');
 					});
 				}
-			}
 
-			var $header, $body, $footer, self = this;
+				if (!this.options.allowScrolling) {
+					$('body').addClass('dialog-no-scroll');
+					this.$scrollContainer = $('<div/>').addClass('dialog-scroll-container').appendTo('body');
+				}
+			}
 
 			if (this.options.closeOnEscape) {
 				$(document).on('keyup.dialog-' + this.id, function(e) {
@@ -168,7 +173,7 @@
 				.append($header)
 				.append($body)
 				.append($footer)
-				.appendTo('body');
+				.appendTo(this.$scrollContainer || 'body');
 
 			if (!this.options.dynamic) {
 				var width = this.$dialog.outerWidth(),
@@ -194,7 +199,13 @@
 				}
 
 				self.$mask && self.$mask.remove();
+				self.$scrollContainer && self.$scrollContainer.remove();
 				self.$dialog.remove();
+				if (self.options.modal && !self.options.allowScrolling) {
+					if (!$('.dialog-scroll-container').length) {
+						$('body').removeClass('dialog-no-scroll');
+					}
+				}
 				self.options.onHidden.call(this, catalyst);
 			});
 		}
@@ -208,6 +219,7 @@
 		closeOnMaskClick: true,
 		closeOnEscape: true,
 		closeX: true,
+		allowScrolling: false,
 		onHiding: function(catalyst, callback) { callback(); },
 		onHidden: function(catalyst) {},
 		onShowing: function(callback) { callback(); },
@@ -235,4 +247,4 @@
 		});
 	}
 
-}(window, jQuery));
+}(window, document, jQuery));

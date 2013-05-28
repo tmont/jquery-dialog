@@ -31,6 +31,10 @@
 	box-sizing: @value;
 }
 
+body.dialog-no-scroll {
+	overflow: hidden;
+}
+
 .dialog-mask {
 	position: fixed;
 	left: 0;
@@ -44,6 +48,19 @@
 	}
 	&.dialog-mask-active {
 		background-color: fade(@maskColor, 50);
+	}
+}
+
+.dialog-scroll-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: @zIndex;
+	overflow: auto;
+	.dialog-container {
+		position: absolute;
 	}
 }
 

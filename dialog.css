@@ -1,3 +1,6 @@
+body.dialog-no-scroll {
+  overflow: hidden;
+}
 .dialog-mask {
   position: fixed;
   left: 0;
@@ -14,6 +17,18 @@
 }
 .dialog-mask.dialog-mask-active {
   background-color: rgba(0, 0, 0, 0.5);
+}
+.dialog-scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow: auto;
+}
+.dialog-scroll-container .dialog-container {
+  position: absolute;
 }
 .dialog-container {
   z-index: 1000;
