@@ -184,8 +184,8 @@
 				var width = this.$dialog.outerWidth(),
 					height = this.$dialog.outerHeight();
 				this.$dialog.css({
-					left: Math.max(0, $(window).width() / 2 - width / 2),
-					top: Math.max(0, $(window).height() / 2 - height / 2)
+					left: Math.max(this.options.gutter, $(window).width() / 2 - width / 2),
+					top: Math.max(this.options.gutter, $(window).height() / 2 - height / 2)
 				});
 			}
 
@@ -227,6 +227,7 @@
 		closeOnEscape: true,
 		closeX: true,
 		allowScrolling: false,
+		gutter: 20,
 		onHiding: function(catalyst, callback) { callback(); },
 		onHidden: function(catalyst) {},
 		onShowing: function(callback) { callback(); },
