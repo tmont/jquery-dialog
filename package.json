@@ -1,7 +1,7 @@
 {
 	"name": "jquery-dialog",
 	"version": "0.0.1",
-	"description": "",
+	"description": "Another dialog plugin",
 	"author": "Tommy Montgomery <tmont@tmont.com> (http://tmont.com/)",
 	"repository": {
 		"type": "git",
