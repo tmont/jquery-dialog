@@ -219,6 +219,8 @@
 	};
 
 	var defaults = {
+		body: '',
+		title: '',
 		dynamic: true,
 		modal: false,
 		width: null,
