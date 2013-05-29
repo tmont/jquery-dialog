@@ -206,6 +206,8 @@
 				self.$mask && self.$mask.remove();
 				self.$scrollContainer && self.$scrollContainer.remove();
 				self.$dialog.remove();
+				$(document).off('.dialog-' + self.id);
+
 				if (self.options.modal && !self.options.allowScrolling) {
 					if (!$('.dialog-scroll-container').length) {
 						$('body').removeClass('dialog-no-scroll');
