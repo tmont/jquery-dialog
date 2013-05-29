@@ -91,7 +91,10 @@ $.dialog({
 
 		save: {
 			html: '<span class="icon-checkmark"></span> Save'
-		}
+		},
+
+		ok: 'OK',
+		cancel: 'Cancel',
 	}
 });
 ```
