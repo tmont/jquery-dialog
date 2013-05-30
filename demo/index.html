@@ -119,6 +119,56 @@
 					}(options)));
 				}
 
+				function theCode() {
+					$('#stacked').click(function() {
+						$.dialog({
+							title: 'Dialog #1',
+							show: true,
+							modal: true,
+							width: 500,
+							height: 500,
+							buttons: { close: 'Close #1' },
+							body: $('<button/>').text('Launch another dialog').click(function() {
+								$.dialog({
+									title: 'Dialog #2',
+									show: true,
+									modal: true,
+									width: 400,
+									height: 400,
+									buttons: { close: 'Close #2' },
+									body: $('<button/>').text('Launch yet another dialog').click(function() {
+										$.dialog({
+											title: 'Dialog #3',
+											width: 300,
+											height: 300,
+											show: true,
+											modal: true,
+											body: 'Oh hi there!',
+											buttons: { close: 'Close #3' }
+										});
+									})
+								});
+							})
+						});
+					});
+				}
+
+				code = theCode.toString()
+					.replace(/\t+/g, function(tabs) { return new Array(tabs.length - 5 + 1).join('  '); })
+					.split('\n')
+					.slice(1, -1)
+					.join('\n');
+
+				$('<li/>')
+					.append($('<h2/>').text('Stacked modals').append($('<button/>')
+						.attr('id', 'stacked')
+						.text('Launch dialog')))
+					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
+					.appendTo($ul);
+
+
+				theCode();
+
 				window.Sunlight.highlightAll();
 			}());
 		</script>
