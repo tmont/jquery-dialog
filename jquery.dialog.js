@@ -65,6 +65,13 @@
 			if (this.options.closeOnEscape) {
 				$(document).on('keyup.dialog-' + this.id, function(e) {
 					if (e.keyCode === 27) {
+						//make sure it's the topmost dialog
+						//the topmost dialog is the one that was added to the DOM last
+						var dialog = $('.dialog-container').last().data('dialog');
+						if (dialog !== self) {
+							return;
+						}
+
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						self.hide('escape');
