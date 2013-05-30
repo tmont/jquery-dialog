@@ -169,6 +169,38 @@
 
 				theCode();
 
+				theCode = function() {
+					$('#callback-body').click(function() {
+						$.dialog({
+							show: true,
+							title: 'Loaded via callback',
+							body: function(callback) {
+								//"this" is the dialog instance
+								window.setTimeout(function() {
+									callback('Hello World (after two seconds)!');
+								}, 2000);
+							}
+						});
+					});
+				};
+
+				code = theCode.toString()
+					.replace(/\t+/g, function(tabs) {
+						return new Array(tabs.length - 5 + 1).join('  ');
+					})
+					.split('\n')
+					.slice(1, -1)
+					.join('\n');
+
+				$('<li/>')
+					.append($('<h2/>').text('Load body via callback').append($('<button/>')
+						.attr('id', 'callback-body')
+						.text('Launch dialog')))
+					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
+					.appendTo($ul);
+
+				theCode();
+
 				window.Sunlight.highlightAll();
 			}());
 		</script>

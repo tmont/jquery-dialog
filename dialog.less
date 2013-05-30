@@ -37,6 +37,22 @@ body.dialog-no-scroll {
 	&.dialog-mask-active {
 		background-color: fade(@dialogMaskColor, 50);
 	}
+	&.dialog-mask-loading {
+		&:after {
+			@height: 16px;
+			@width: 107px;
+			position: absolute;
+			display: block;
+			content: "";
+			background-image: url("./loading.gif");
+			top: 50%;
+			left: 50%;
+			width: @width;
+			height: @height;
+			margin-left: -@width;
+			margin-top: -@height;
+		}
+	}
 }
 
 .dialog-scroll-container {

@@ -22,21 +22,47 @@
 					return;
 				}
 
-				self.render();
+				self.fetchBodyAndRender();
 			});
 		},
 
-		render: function() {
+		createMask: function(loading) {
+			this.$mask = $('<div/>')
+				.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
+				.appendTo('body');
+
+			if (loading) {
+				this.$mask.addClass('dialog-mask-loading');
+			}
+
+			//force repaint for firefox: http://stackoverflow.com/a/12089264
+			this.$mask
+				.data('forceRepaint', this.$mask[0].clientHeight)
+				.addClass('dialog-mask-active');
+		},
+
+		fetchBodyAndRender: function() {
+			var body = this.options.body,
+				self = this;
+			if (typeof(body) === 'function') {
+				this.createMask(true);
+
+				body.call(this, function(body) {
+					self.render(body);
+				});
+			} else {
+				self.render(body);
+			}
+		},
+
+		render: function(body) {
 			var $header, $body, $footer, self = this;
 			if (this.options.modal) {
-				this.$mask = $('<div/>')
-					.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
-					.appendTo('body');
-
-				//force repaint for firefox: http://stackoverflow.com/a/12089264
-				this.$mask
-					.data('forceRepaint', this.$mask[0].clientHeight)
-					.addClass('dialog-mask-active');
+				if (!this.$mask) {
+					this.createMask(false);
+				} else {
+					this.$mask.removeClass('dialog-mask-loading');
+				}
 
 				if (this.options.closeOnMaskClick) {
 					this.$mask.click(function() {
@@ -60,6 +86,8 @@
 						});
 					}
 				}
+			} else if (this.$mask) {
+				this.$mask.remove();
 			}
 
 			if (this.options.closeOnEscape) {
@@ -126,11 +154,11 @@
 
 			$body = $('<div/>').addClass('dialog-body');
 
-			if (this.options.body) {
-				if (typeof(this.options.body) === 'string') {
-					$body.append($('<p/>').text(this.options.body));
+			if (body) {
+				if (typeof(body) === 'string') {
+					$body.append($('<p/>').text(body));
 				} else {
-					$body.append(this.options.body);
+					$body.append(body);
 				}
 			}
 
