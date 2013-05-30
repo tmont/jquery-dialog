@@ -1,9 +1,11 @@
 # jQuery Dialog!
 What could possibly go wrong with another one of these?
 
+![Oh, the dialogs!](./docs/oh-my-thats-a-lot-of-dialogs.png)
+
 ## Installation
 Reference `jquery.dialog.js` somewhere. You'll also need to add the
-`dialog.css` stylesheet as well.
+`dialog.css` stylesheet as well, unless you want them to look bad.
 
 If you're feeling frisky, you can also rock the `dialog.less` file
 and configure Less compilation.
