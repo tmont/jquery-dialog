@@ -3,6 +3,9 @@ What could possibly go wrong with another one of these?
 
 ![Oh, the dialogs!](./docs/oh-my-thats-a-lot-of-dialogs.png)
 
+## DEMO
+[YES THIS IS DEMO.](http://tmont.github.io/jquery-dialog/)
+
 ## Installation
 Reference `jquery.dialog.js` somewhere. You'll also need to add the
 `dialog.css` stylesheet as well, unless you want them to look bad.
