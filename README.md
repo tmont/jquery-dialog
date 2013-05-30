@@ -15,6 +15,7 @@ and configure Less compilation.
 * Chrome
 * Safari
 * IE9+
+* Maybe IE8 if you remove rgba() values in the CSS
 
 ## Usage
 Default options:
