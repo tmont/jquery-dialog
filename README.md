@@ -81,6 +81,8 @@ $('button').click(function() {
 		buttons: { close: 'Close' }
 	});
 
+	dialog.show(); //you can also pass { show: true } to the options
+
 	window.setTimeout(function() {
 		dialog.hide();
 	}, 1000);
