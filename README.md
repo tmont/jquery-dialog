@@ -8,6 +8,12 @@ Reference `jquery.dialog.js` somewhere. You'll also need to add the
 If you're feeling frisky, you can also rock the `dialog.less` file
 and configure Less compilation.
 
+## Browser Support
+* Firefox
+* Chrome
+* Safari
+* IE9+
+
 ## Usage
 Default options:
 
