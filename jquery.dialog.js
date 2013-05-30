@@ -48,10 +48,17 @@
 					$('body').addClass('dialog-no-scroll');
 					this.$scrollContainer = $('<div/>')
 						.addClass('dialog-scroll-container')
-						.click(function() {
-							self.hide('mask');
-						})
 						.appendTo('body');
+
+					if (this.options.closeOnMaskClick) {
+						this.$scrollContainer.click(function(e) {
+							if (e.target !== this) {
+								return;
+							}
+
+							self.hide('mask');
+						});
+					}
 				}
 			}
 
