@@ -178,7 +178,8 @@
 						continue;
 					}
 
-					var data = this.options.buttons[type];
+					var data = this.options.buttons[type],
+						$button = $('<div/>');
 					if (!data) {
 						continue;
 					}
@@ -186,38 +187,45 @@
 						data = { text: data };
 					}
 
-					var button = $.extend({}, data),
-						$button = $('<div/>').addClass('dialog-button ' + (button.className || ''));
+					if (data.jquery) {
+						$button = data;
+					} else {
+						var button = $.extend({}, data);
+						$button.addClass('dialog-button ' + (button.className || ''));
 
-					type = type.toLowerCase();
-					switch (type) {
-						case 'close':
-						case 'ok':
-							button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
-							if (!button.className) {
-								$button.addClass('dialog-button-primary');
-							}
-							$button.click((function(type) {
-								return function() {
-									self.hide(type === 'ok' ? 'okButton' : 'closeButton');
-								};
-							}(type)));
-							break;
-						case 'cancel':
-							button.text = button.text || 'Cancel';
-							if (!button.className) {
-								$button.addClass('dialog-button-info');
-							}
-							$button.click(function() {
-								self.hide('cancelButton');
-							});
-							break;
-					}
+						type = type.toLowerCase();
+						switch (type) {
+							case 'close':
+							case 'ok':
+								button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
+								if (!button.className) {
+									$button.addClass('dialog-button-primary');
+								}
+								$button.click((function(type) {
+									return function() {
+										self.hide(type === 'ok' ? 'okButton' : 'closeButton');
+									};
+								}(type)));
+								break;
+							case 'cancel':
+								button.text = button.text || 'Cancel';
+								if (!button.className) {
+									$button.addClass('dialog-button-info');
+								}
+								$button.click(function() {
+									self.hide('cancelButton');
+								});
+								break;
+							default:
+								if (!button.className) {
+									$button.addClass('dialog-button-primary');
+								}
+								break;
+						}
 
-					if (button.html) {
-						$button.html(button.html);
-					} else if (button.text) {
-						$button.text(button.text);
+						if (button.text) {
+							$button.text(button.text);
+						}
 					}
 
 					$button.appendTo($footer);

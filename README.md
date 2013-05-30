@@ -107,9 +107,7 @@ $.dialog({
 			text: 'Delete'
 		},
 
-		save: {
-			html: '<span class="icon-checkmark"></span> Save'
-		},
+		save: $('<div/>').addClass('btn btn-large btn-primary').text('Click me!'),
 
 		ok: 'OK',
 		cancel: 'Cancel',
