@@ -18,6 +18,18 @@ body.dialog-no-scroll {
 .dialog-mask.dialog-mask-active {
   background-color: rgba(0, 0, 0, 0.5);
 }
+.dialog-mask.dialog-mask-loading:after {
+  position: absolute;
+  display: block;
+  content: "";
+  background-image: url("./loading.gif");
+  top: 50%;
+  left: 50%;
+  width: 107px;
+  height: 16px;
+  margin-left: -107px;
+  margin-top: -16px;
+}
 .dialog-scroll-container {
   position: fixed;
   top: 0;

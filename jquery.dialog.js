@@ -22,21 +22,47 @@
 					return;
 				}
 
-				self.render();
+				self.fetchBodyAndRender();
 			});
 		},
 
-		render: function() {
+		createMask: function(loading) {
+			this.$mask = $('<div/>')
+				.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
+				.appendTo('body');
+
+			if (loading) {
+				this.$mask.addClass('dialog-mask-loading');
+			}
+
+			//force repaint for firefox: http://stackoverflow.com/a/12089264
+			this.$mask
+				.data('forceRepaint', this.$mask[0].clientHeight)
+				.addClass('dialog-mask-active');
+		},
+
+		fetchBodyAndRender: function() {
+			var body = this.options.body,
+				self = this;
+			if (typeof(body) === 'function') {
+				this.createMask(true);
+
+				body.call(this, function(body) {
+					self.render(body);
+				});
+			} else {
+				self.render(body);
+			}
+		},
+
+		render: function(body) {
 			var $header, $body, $footer, self = this;
 			if (this.options.modal) {
-				this.$mask = $('<div/>')
-					.addClass('dialog-mask ' + (this.options.transitionMask ? 'dialog-mask-transition' : ''))
-					.appendTo('body');
-
-				//force repaint for firefox: http://stackoverflow.com/a/12089264
-				this.$mask
-					.data('forceRepaint', this.$mask[0].clientHeight)
-					.addClass('dialog-mask-active');
+				if (!this.$mask) {
+					this.createMask(false);
+				} else {
+					this.$mask.removeClass('dialog-mask-loading');
+				}
 
 				if (this.options.closeOnMaskClick) {
 					this.$mask.click(function() {
@@ -60,6 +86,8 @@
 						});
 					}
 				}
+			} else if (this.$mask) {
+				this.$mask.remove();
 			}
 
 			if (this.options.closeOnEscape) {
@@ -103,6 +131,14 @@
 					this.$dialog.css('margin-top', marginTop);
 				}
 			}
+			if (this.options.position) {
+				if (this.options.position.top) {
+					this.$dialog.css({ marginTop: 'auto', top: this.options.position.top });
+				}
+				if (this.options.position.left) {
+					this.$dialog.css({ marginLeft: 'auto', left: this.options.position.left });
+				}
+			}
 
 			$header = $('<div/>')
 				.addClass('dialog-header');
@@ -126,11 +162,11 @@
 
 			$body = $('<div/>').addClass('dialog-body');
 
-			if (this.options.body) {
-				if (typeof(this.options.body) === 'string') {
-					$body.append($('<p/>').text(this.options.body));
+			if (body) {
+				if (typeof(body) === 'string') {
+					$body.append($('<p/>').text(body));
 				} else {
-					$body.append(this.options.body);
+					$body.append(body);
 				}
 			}
 
@@ -142,7 +178,8 @@
 						continue;
 					}
 
-					var data = this.options.buttons[type];
+					var data = this.options.buttons[type],
+						$button = $('<div/>');
 					if (!data) {
 						continue;
 					}
@@ -150,38 +187,45 @@
 						data = { text: data };
 					}
 
-					var button = $.extend({}, data),
-						$button = $('<div/>').addClass('dialog-button ' + (button.className || ''));
+					if (data.jquery) {
+						$button = data;
+					} else {
+						var button = $.extend({}, data);
+						$button.addClass('dialog-button ' + (button.className || ''));
 
-					type = type.toLowerCase();
-					switch (type) {
-						case 'close':
-						case 'ok':
-							button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
-							if (!button.className) {
-								$button.addClass('dialog-button-primary');
-							}
-							$button.click((function(type) {
-								return function() {
-									self.hide(type === 'ok' ? 'okButton' : 'closeButton');
-								};
-							}(type)));
-							break;
-						case 'cancel':
-							button.text = button.text || 'Cancel';
-							if (!button.className) {
-								$button.addClass('dialog-button-info');
-							}
-							$button.click(function() {
-								self.hide('cancelButton');
-							});
-							break;
-					}
+						type = type.toLowerCase();
+						switch (type) {
+							case 'close':
+							case 'ok':
+								button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
+								if (!button.className) {
+									$button.addClass('dialog-button-primary');
+								}
+								$button.click((function(type) {
+									return function() {
+										self.hide(type === 'ok' ? 'okButton' : 'closeButton');
+									};
+								}(type)));
+								break;
+							case 'cancel':
+								button.text = button.text || 'Cancel';
+								if (!button.className) {
+									$button.addClass('dialog-button-info');
+								}
+								$button.click(function() {
+									self.hide('cancelButton');
+								});
+								break;
+							default:
+								if (!button.className) {
+									$button.addClass('dialog-button-primary');
+								}
+								break;
+						}
 
-					if (button.html) {
-						$button.html(button.html);
-					} else if (button.text) {
-						$button.text(button.text);
+						if (button.text) {
+							$button.text(button.text);
+						}
 					}
 
 					$button.appendTo($footer);
@@ -197,10 +241,12 @@
 			if (!this.options.dynamic) {
 				var width = this.$dialog.outerWidth(),
 					height = this.$dialog.outerHeight();
-				this.$dialog.css({
-					left: Math.max(this.options.gutter, $(window).width() / 2 - width / 2),
-					top: Math.max(this.options.gutter, $(window).height() / 2 - height / 2)
-				});
+				if (!this.options.position || !this.options.position.top) {
+					this.$dialog.css('top', Math.max(this.options.gutter, $(window).height() / 2 - height / 2));
+				}
+				if (!this.options.position || !this.options.position.left) {
+					this.$dialog.css('left', Math.max(this.options.gutter, $(window).width() / 2 - width / 2));
+				}
 			}
 
 			this.options.onShown.call(this);
@@ -244,6 +290,7 @@
 		closeX: true,
 		allowScrolling: false,
 		gutter: 20,
+		position: null,
 		onHiding: function(catalyst, callback) { callback(); },
 		onHidden: function(catalyst) {},
 		onShowing: function(callback) { callback(); },

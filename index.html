@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Best dialog ever demo</title>
-		<link rel="stylesheet" type="text/css" href="./dialog.css"/>
+		<link rel="stylesheet" type="text/css" href="../dialog.css"/>
 		<link rel="stylesheet" type="text/css" href="./sunlight.default.css"/>
 		<style type="text/css">
 			body {
@@ -30,7 +30,7 @@
 		<script type="text/javascript" src="./jquery.min.js"></script>
 		<script type="text/javascript" src="./sunlight-min.js"></script>
 		<script type="text/javascript" src="./sunlight.javascript-min.js"></script>
-		<script type="text/javascript" src="./jquery.dialog.js"></script>
+		<script type="text/javascript" src="../jquery.dialog.js"></script>
 		<script type="text/javascript">
 			(function() {
 				var defaults = {
@@ -57,11 +57,23 @@
 					},
 					dimensions: {
 						name: 'With custom dimensions',
-						options: { width: 300, height: 200 }
+						options: { width: 300, height: 500 }
 					},
 					'static': {
 						name: 'Won\'t move around when you resize the window',
 						options: { dynamic: false }
+					},
+					position: {
+						name: 'With specific positioning',
+						options: { position: { top: 50, left: 100 } }
+					},
+					'position-top-only': {
+						name: 'With specific positioning on one axis',
+						options: { position: { left: 50 } }
+					},
+					'position-static': {
+						name: 'Non-dynamic specific position',
+						options: { dynamic: false, position: { left: 50 } }
 					},
 					'no-escape': {
 						name: 'Don\'t close dialog on ESC',
@@ -83,9 +95,13 @@
 						name: 'Close button',
 						options: { buttons: { close: 'Close me!' } }
 					},
-					'ok-button': {
+					'builtin-buttons': {
 						name: 'Other built-in buttons',
 						options: { buttons: { ok: 'OK', cancel: 'Cancel' } }
+					},
+					'custom-button': {
+						name: 'Custom button',
+						options: { buttons: { dude: 'What?' } }
 					},
 					'allow-background-scrolling': {
 						name: 'Background scrolling with modal',
@@ -166,6 +182,38 @@
 					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
 					.appendTo($ul);
 
+
+				theCode();
+
+				theCode = function() {
+					$('#callback-body').click(function() {
+						$.dialog({
+							show: true,
+							title: 'Loaded via callback',
+							body: function(callback) {
+								//"this" is the dialog instance
+								window.setTimeout(function() {
+									callback('Hello World (after two seconds)!');
+								}, 2000);
+							}
+						});
+					});
+				};
+
+				code = theCode.toString()
+					.replace(/\t+/g, function(tabs) {
+						return new Array(tabs.length - 5 + 1).join('  ');
+					})
+					.split('\n')
+					.slice(1, -1)
+					.join('\n');
+
+				$('<li/>')
+					.append($('<h2/>').text('Load body via callback').append($('<button/>')
+						.attr('id', 'callback-body')
+						.text('Launch dialog')))
+					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
+					.appendTo($ul);
 
 				theCode();
 
