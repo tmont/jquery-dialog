@@ -131,6 +131,14 @@
 					this.$dialog.css('margin-top', marginTop);
 				}
 			}
+			if (this.options.position) {
+				if (this.options.position.top) {
+					this.$dialog.css({ marginTop: 'auto', top: this.options.position.top });
+				}
+				if (this.options.position.left) {
+					this.$dialog.css({ marginLeft: 'auto', left: this.options.position.left });
+				}
+			}
 
 			$header = $('<div/>')
 				.addClass('dialog-header');
@@ -225,10 +233,12 @@
 			if (!this.options.dynamic) {
 				var width = this.$dialog.outerWidth(),
 					height = this.$dialog.outerHeight();
-				this.$dialog.css({
-					left: Math.max(this.options.gutter, $(window).width() / 2 - width / 2),
-					top: Math.max(this.options.gutter, $(window).height() / 2 - height / 2)
-				});
+				if (!this.options.position || !this.options.position.top) {
+					this.$dialog.css('top', Math.max(this.options.gutter, $(window).height() / 2 - height / 2));
+				}
+				if (!this.options.position || !this.options.position.left) {
+					this.$dialog.css('left', Math.max(this.options.gutter, $(window).width() / 2 - width / 2));
+				}
 			}
 
 			this.options.onShown.call(this);
@@ -272,6 +282,7 @@
 		closeX: true,
 		allowScrolling: false,
 		gutter: 20,
+		position: null,
 		onHiding: function(catalyst, callback) { callback(); },
 		onHidden: function(catalyst) {},
 		onShowing: function(callback) { callback(); },

@@ -63,6 +63,18 @@
 						name: 'Won\'t move around when you resize the window',
 						options: { dynamic: false }
 					},
+					position: {
+						name: 'With specific positioning',
+						options: { position: { top: 50, left: 100 } }
+					},
+					'position-top-only': {
+						name: 'With specific positioning on one axis',
+						options: { position: { left: 50 } }
+					},
+					'position-static': {
+						name: 'Non-dynamic specific position',
+						options: { dynamic: false, position: { left: 50 } }
+					},
 					'no-escape': {
 						name: 'Don\'t close dialog on ESC',
 						options: { closeOnEscape: false }
