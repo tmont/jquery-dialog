@@ -25,11 +25,15 @@ Default options:
 
 ```javascript
 $.dialog({
-	// body of the dialog, either a string for text or a jQuery/DOM element
+	// body of the dialog, either a string for text, a jQuery/DOM element, or
+	// a function that returns the body in a callback
 	body: '',
 
 	// title text
 	title: '',
+
+	// position the dialog at a specific place, e.g. { top: 40, left: 100 }
+	position: null,
 
 	// dynamically keep the dialog in the center of the screen
 	dynamic: true,
@@ -37,7 +41,7 @@ $.dialog({
 	// use an overlay to prevent interaction with the background
     modal: false,
 
-    // customize the dimensions of the dialog
+    // dimensions of the dialog
     width: null,
     height: null,
 
