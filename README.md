@@ -18,14 +18,14 @@ and configure Less compilation.
 * Chrome
 * Safari
 * IE9+
-* Maybe IE8 if you remove rgba() values in the CSS
+* Maybe IE8 if you change rgba() values to use opacity
 
 ## Usage
 Default options:
 
 ```javascript
 $.dialog({
-	// body of the dialog, either a string for text, a jQuery/DOM element, or
+	// body of the dialog, either a string, a jQuery instance, or
 	// a function that returns the body in a callback
 	body: '',
 
