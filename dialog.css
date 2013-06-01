@@ -45,8 +45,8 @@ body.dialog-no-scroll {
 .dialog-container {
   z-index: 1000;
   position: fixed;
-  height: 200px;
-  width: 400px;
+  min-height: 200px;
+  min-width: 400px;
   background-color: #e3e3e3;
   background-image: -moz-linear-gradient(top, #f0f0f0 85%, #d7d7d7 100%);
   background-image: -webkit-linear-gradient(top, #f0f0f0 85%, #d7d7d7 100%);
@@ -59,8 +59,6 @@ body.dialog-no-scroll {
 .dialog-container.dynamic {
   top: 50%;
   left: 50%;
-  margin-left: -200px;
-  margin-top: -100px;
 }
 .dialog-container .dialog-header {
   background-color: #4f537a;
@@ -107,6 +105,7 @@ body.dialog-no-scroll {
 }
 .dialog-container .dialog-body {
   padding: 10px;
+  margin-bottom: 41px;
 }
 .dialog-container .dialog-body p {
   margin-top: 0;
@@ -119,6 +118,7 @@ body.dialog-no-scroll {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  min-height: 41px;
 }
 .dialog-container .dialog-footer .dialog-button {
   float: right;

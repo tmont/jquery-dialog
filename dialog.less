@@ -71,16 +71,14 @@ body.dialog-no-scroll {
 .dialog-container {
 	z-index: @dialogZIndex;
 	position: fixed;
-	height: @dialogHeight;
-	width: @dialogWidth;
+	min-height: @dialogHeight;
+	min-width: @dialogWidth;
 	.gradient-vertical-2(@dialogBgColor, darken(@dialogBgColor, 10%), 85%);
 	color: @dialogColor;
 
 	&.dynamic {
 		top: 50%;
 		left: 50%;
-		margin-left: -@dialogWidth / 2;
-		margin-top: -@dialogHeight / 2;
 	}
 
 	border: 1px solid @dialogBorderColor;
@@ -125,6 +123,7 @@ body.dialog-no-scroll {
 
 	.dialog-body {
 		padding: @dialogPadding;
+		margin-bottom: 41px;
 		p {
 			margin-top: 0;
 		}
@@ -136,6 +135,8 @@ body.dialog-no-scroll {
 		bottom: 0;
 		width: 100%;
 		.box-sizing(border-box);
+		min-height: 41px;
+
 		.dialog-button {
 			float: right;
 		}

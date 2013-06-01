@@ -73,7 +73,7 @@
 					},
 					'position-static': {
 						name: 'Non-dynamic specific position',
-						options: { dynamic: false, position: { left: 50 } }
+						options: { dynamic: false, position: { top: 50 } }
 					},
 					'no-escape': {
 						name: 'Don\'t close dialog on ESC',
@@ -211,6 +211,33 @@
 				$('<li/>')
 					.append($('<h2/>').text('Load body via callback').append($('<button/>')
 						.attr('id', 'callback-body')
+						.text('Launch dialog')))
+					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
+					.appendTo($ul);
+
+				theCode();
+
+				theCode = function() {
+					$('#big-body').click(function() {
+						$.dialog({
+							show: true,
+							title: 'Nice body',
+							body: $(new Array(10).join('<p>You gotta big body</p>'))
+						});
+					});
+				};
+
+				code = theCode.toString()
+					.replace(/\t+/g, function(tabs) {
+						return new Array(tabs.length - 5 + 1).join('  ');
+					})
+					.split('\n')
+					.slice(1, -1)
+					.join('\n');
+
+				$('<li/>')
+					.append($('<h2/>').text('Dialog height grows to fit body').append($('<button/>')
+						.attr('id', 'big-body')
 						.text('Launch dialog')))
 					.append($('<pre/>').addClass('sunlight-highlight-javascript').text(code))
 					.appendTo($ul);

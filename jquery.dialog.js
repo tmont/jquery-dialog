@@ -113,24 +113,12 @@
 				.data('dialog', this);
 
 			if (this.options.width) {
-				this.$dialog.width(this.options.width);
+				this.$dialog.css('min-width', this.options.width);
 			}
 			if (this.options.height) {
-				this.$dialog.height(this.options.height);
+				this.$dialog.css('min-height', this.options.height);
 			}
-			if (this.options.dynamic) {
-				this.$dialog.addClass('dynamic');
-				if (this.options.width) {
-					var marginLeft = (-parseFloat(this.options.width) / 2) +
-						(/[a-z]+$/i.exec(String(this.options.width)) || ['px'])[0];
-					this.$dialog.css('margin-left', marginLeft);
-				}
-				if (this.options.height) {
-					var marginTop = (-parseFloat(this.options.height) / 2) +
-						(/[a-z]+$/i.exec(String(this.options.height)) || ['px'])[0];
-					this.$dialog.css('margin-top', marginTop);
-				}
-			}
+
 			if (this.options.position) {
 				if (this.options.position.top) {
 					this.$dialog.css({ marginTop: 'auto', top: this.options.position.top });
@@ -238,9 +226,18 @@
 				.append($footer)
 				.appendTo(this.$scrollContainer || 'body');
 
-			if (!this.options.dynamic) {
-				var width = this.$dialog.outerWidth(),
-					height = this.$dialog.outerHeight();
+			var width = this.$dialog.outerWidth(),
+				height = this.$dialog.outerHeight();
+
+			if (this.options.dynamic) {
+				this.$dialog.addClass('dynamic');
+				if (!this.options.position || !this.options.position.left) {
+					this.$dialog.css('margin-left', -width / 2);
+				}
+				if (!this.options.position || !this.options.position.top) {
+					this.$dialog.css('margin-top', -height / 2);
+				}
+			} else {
 				if (!this.options.position || !this.options.position.top) {
 					this.$dialog.css('top', Math.max(this.options.gutter, $(window).height() / 2 - height / 2));
 				}
