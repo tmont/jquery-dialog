@@ -113,10 +113,10 @@
 				.data('dialog', this);
 
 			if (this.options.width) {
-				this.$dialog.css('min-width', this.options.width);
+				this.$dialog.css(this.options.fixedDimensions ? 'width' : 'min-width', this.options.width);
 			}
 			if (this.options.height) {
-				this.$dialog.css('min-height', this.options.height);
+				this.$dialog.css(this.options.fixedDimensions ? 'height' : 'min-height', this.options.height);
 			}
 
 			if (this.options.position) {
@@ -280,6 +280,7 @@
 		title: '',
 		dynamic: true,
 		modal: false,
+		fixedDimensions: false,
 		width: null,
 		height: null,
 		closeOnMaskClick: true,
