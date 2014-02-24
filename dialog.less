@@ -148,34 +148,19 @@ body.dialog-no-scroll {
 		border-radius: @dialogRadius;
 		cursor: pointer;
 		.transition(all 200ms);
-		border: 1px solid transparent;
+		box-shadow: inset 0 -15px 10px fade(black, 25);
+		border: 1px solid @dialogPrimaryButtonBgColor;
+		.gradient-vertical-2(@dialogPrimaryButtonBgColor, darken(@dialogPrimaryButtonBgColor, 10%));
+		color: @dialogHeaderColor;
+		&:hover {
+			box-shadow: none;
+		}
+		&:active, &:focus {
+			.gradient-vertical-2(darken(@dialogPrimaryButtonBgColor, 10%), @dialogPrimaryButtonBgColor);
+		}
 
 		&.dialog-button + .dialog-button {
 			margin-right: 5px;
-		}
-
-		&.dialog-button-primary {
-			box-shadow: inset 0 -15px 10px fade(black, 25);
-			border-color: @dialogPrimaryButtonBgColor;
-			.gradient-vertical-2(@dialogPrimaryButtonBgColor, darken(@dialogPrimaryButtonBgColor, 10%));
-			color: @dialogHeaderColor;
-			&:hover {
-				box-shadow: none;
-			}
-			&:active, &:focus {
-				.gradient-vertical-2(darken(@dialogPrimaryButtonBgColor, 10%), @dialogPrimaryButtonBgColor);
-			}
-		}
-
-		&.dialog-button-info {
-			border-color: @dialogButtonBgColor;
-			.gradient-vertical-2(lighten(@dialogButtonBgColor, 10%), darken(@dialogButtonBgColor, 10%));
-			&:hover {
-				box-shadow: inset 0 -5px 10px fade(black, 15);
-			}
-			&:active, &:focus {
-				.gradient-vertical-2(darken(@dialogButtonBgColor, 10%), @dialogButtonBgColor);
-			}
 		}
 	}
 }

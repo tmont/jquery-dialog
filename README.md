@@ -32,6 +32,9 @@ $.dialog({
 	// title text
 	title: '',
 
+	//HTML or jQuery/DOM for footer
+	footer: '',
+
 	// position the dialog at a specific place, e.g. { top: 40, left: 100 }
 	position: null,
 
@@ -63,9 +66,7 @@ $.dialog({
 
     // event callbacks (always remember to invoke the callback argument!)
     onHiding: function(catalyst, callback) { callback(); },
-    onHidden: function(catalyst) {},
     onShowing: function(callback) { callback(); },
-    onShown: function() {},
 
     // enable CSS transitions for the modal mask
     transitionMask: true,
@@ -96,24 +97,11 @@ $('button').click(function() {
 });
 ```
 
-And buttons!
+### Events
+The dialog emits two events: `hide` and `show`. They are emitted when the dialog
+has been hidden, and when the dialog has been shown. I'll let you figure out
+which event does which.
 
-```javascript
-$.dialog({
-	buttons: {
-		// bootstrap style
-		'delete': {
-			className: 'btn btn-danger',
-			text: 'Delete'
-		},
-
-		save: $('<div/>').addClass('btn btn-large btn-primary').text('Click me!'),
-
-		ok: 'OK',
-		cancel: 'Cancel',
-	}
-});
-```
 
 ## Development
 ```bash

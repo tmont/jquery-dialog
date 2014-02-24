@@ -141,11 +141,11 @@
 				$('<div/>')
 					.addClass('dialog-close')
 					.html('&times;')
-					.attr('title', 'Close')
-					.click(function() {
-						self.hide('x');
-					})
+					.attr({ title: 'Close', 'data-dialog-action': 'hide' })
 					.appendTo($header);
+			}
+			if (!this.options.closeX && !this.options.title) {
+				$header = $();
 			}
 
 			$body = $('<div/>').addClass('dialog-body');
@@ -159,64 +159,11 @@
 			}
 
 			$footer = $('<div/>').addClass('dialog-footer');
-
-			if (this.options.buttons) {
-				for (var type in this.options.buttons) {
-					if (!this.options.buttons.hasOwnProperty(type)) {
-						continue;
-					}
-
-					var data = this.options.buttons[type],
-						$button = $('<div/>');
-					if (!data) {
-						continue;
-					}
-					if (typeof(data) === 'string') {
-						data = { text: data };
-					}
-
-					if (data.jquery) {
-						$button = data;
-					} else {
-						var button = $.extend({}, data);
-						$button.addClass('dialog-button ' + (button.className || ''));
-
-						type = type.toLowerCase();
-						switch (type) {
-							case 'close':
-							case 'ok':
-								button.text = button.text || (type === 'ok' ? 'OK' : 'Close');
-								if (!button.className) {
-									$button.addClass('dialog-button-primary');
-								}
-								$button.click((function(type) {
-									return function() {
-										self.hide(type === 'ok' ? 'okButton' : 'closeButton');
-									};
-								}(type)));
-								break;
-							case 'cancel':
-								button.text = button.text || 'Cancel';
-								if (!button.className) {
-									$button.addClass('dialog-button-info');
-								}
-								$button.click(function() {
-									self.hide('cancelButton');
-								});
-								break;
-							default:
-								if (!button.className) {
-									$button.addClass('dialog-button-primary');
-								}
-								break;
-						}
-
-						if (button.text) {
-							$button.text(button.text);
-						}
-					}
-
-					$button.appendTo($footer);
+			if (this.options.footer) {
+				if (typeof(this.options.footer) === 'string') {
+					$footer.html(this.options.footer);
+				} else {
+					$footer.append(this.options.footer);
 				}
 			}
 
@@ -225,6 +172,15 @@
 				.append($body)
 				.append($footer)
 				.appendTo(this.$scrollContainer || 'body');
+
+			this.$dialog.on('click', '[data-dialog-action]', function() {
+				var action = $(this).attr('data-dialog-action');
+				switch (action) {
+					case 'hide':
+						self.hide();
+						break;
+				}
+			});
 
 			var width = this.$dialog.outerWidth(),
 				height = this.$dialog.outerHeight();
@@ -246,7 +202,7 @@
 				}
 			}
 
-			this.options.onShown.call(this);
+			this.$dialog.trigger('show');
 		},
 
 		hide: function(catalyst) {
@@ -260,6 +216,7 @@
 					return;
 				}
 
+				self.$dialog.trigger('hide');
 				self.$mask && self.$mask.remove();
 				self.$scrollContainer && self.$scrollContainer.remove();
 				self.$dialog.remove();
@@ -270,7 +227,6 @@
 						$('body').removeClass('dialog-no-scroll');
 					}
 				}
-				self.options.onHidden.call(this, catalyst);
 			});
 		}
 	};
@@ -290,11 +246,9 @@
 		gutter: 20,
 		position: null,
 		onHiding: function(catalyst, callback) { callback(); },
-		onHidden: function(catalyst) {},
 		onShowing: function(callback) { callback(); },
-		onShown: function() {},
 		transitionMask: true,
-		buttons: {}
+		footer: null
 	};
 
 	$.dialog = function(options) {
