@@ -111,7 +111,10 @@
 				modal: true,
 				width: 500,
 				height: 500,
-				buttons: { close: 'Close #1' },
+				footer: $('<div/>')
+					.addClass('dialog-button')
+					.attr('data-dialog-action', 'hide')
+					.text('Close'),
 				body: $('<button/>').text('Launch another dialog').click(function() {
 					$.dialog({
 						title: 'Dialog #2',
@@ -119,7 +122,10 @@
 						modal: true,
 						width: 400,
 						height: 400,
-						buttons: { close: 'Close #2' },
+						footer: $('<div/>')
+							.addClass('dialog-button')
+							.attr('data-dialog-action', 'hide')
+							.text('Close'),
 						body: $('<button/>').text('Launch yet another dialog').click(function() {
 							$.dialog({
 								title: 'Dialog #3',
@@ -128,7 +134,10 @@
 								show: true,
 								modal: true,
 								body: 'Oh hi there!',
-								buttons: { close: 'Close #3' }
+								footer: $('<div/>')
+									.addClass('dialog-button')
+									.attr('data-dialog-action', 'hide')
+									.text('Close')
 							});
 						})
 					});

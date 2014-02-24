@@ -138,6 +138,7 @@ body.dialog-no-scroll {
   background-image: -webkit-linear-gradient(top, #595e89 0%, #45496a 100%);
   background-image: linear-gradient(to bottom, #595e89 0%, #45496a 100%);
   color: #ffffff;
+  font-size: 14px;
 }
 .dialog-container .dialog-button:hover {
   box-shadow: none;
